@@ -137,11 +137,11 @@ E-commerce-Order-Fulfillment-Operations-Analysis/
 │   └── ecommerce_orders.csv
 │
 ├── SQL/
-│   ├── 01_data_overview.sql
-│   ├── 02_delivery_delay_analysis.sql
-│   ├── 03_category_delay_analysis.sql
-│   ├── 04_refund_analysis.sql
-│   └── 05_refund_risk_score.sql
+│   ├── data_overview.sql
+│   ├── delivery_delay_analysis.sql
+│   ├── category_delay_analysis.sql
+│   ├── refund_analysis.sql
+│   └── refund_risk_score.sql
 │
 ├── README.md
 ```
