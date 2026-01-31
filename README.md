@@ -1,182 +1,177 @@
-This project analyzes e-commerce order fulfillment operations to identify operational inefficiencies, customer dissatisfaction drivers, and refund risk patterns.
-The analysis is SQL-first and focuses on how delivery delays, service ratings, platforms, and product categories impact refunds.
-The goal is operational decision support using clean, explainable SQL logic.
 
-Business Problem
 
-E-commerce platforms face frequent issues such as:
 
-Late deliveries
 
-Poor service experience
+# E-Commerce Order Fulfillment Operations Analysis
 
-High refund rates
+## Project Overview
 
-Inconsistent performance across platforms and categories
+This project analyzes **e-commerce order fulfillment operations** to identify operational inefficiencies, customer dissatisfaction drivers, and refund risk patterns.
 
-Refunds are costly consequences, not random events.
+The analysis is **SQL-first** and focuses on how delivery delays, service ratings, platforms, and product categories impact refunds.
+The goal is **operational decision support**, not dashboards or black-box models.
+
+---
+
+## Business Problem
+
+E-commerce platforms frequently face operational issues such as:
+
+* Late deliveries
+* Poor service experience
+* High refund rates
+* Inconsistent performance across platforms and categories
+
+Refunds are **costly consequences**, not random events.
 
 This project answers:
 
-Where are delays happening?
+* Where are delivery delays happening?
+* Which platforms and product categories are operationally weak?
+* How do service ratings and delivery delays relate to refunds?
+* Can we score refund risk at the order level using **explainable rules**?
 
-Which platforms and categories are operationally weak?
+---
 
-How strongly do service ratings and delays relate to refunds?
+## Dataset
 
-Can we score refund risk at the order level using explainable rules?
+**Source:** Public e-commerce order fulfillment dataset
+**Size:** ~100,000 orders
 
-Dataset
+Each row represents a completed order.
 
-Source: Public e-commerce order fulfillment dataset
+### Key Fields
 
-Records: ~100,000 orders
+* `order_id`
+* `platform` (Blinkit, JioMart, Swiggy Instamart)
+* `product_category`
+* `service_rating` (1–5)
+* `delivery_delay` (Yes / No)
+* `refund_requested` (Yes / No)
+* `order_value_inr`
 
-Each row represents a completed order
+---
 
-Key Fields Used
+## Analysis Approach
 
-order_id
+All analysis is performed using **PostgreSQL**.
 
-platform (Blinkit, JioMart, Swiggy Instamart)
+The project is structured as a sequence of **operational questions**, not isolated queries.
 
-product_category
+---
 
-service_rating (1–5)
+## Key Analyses
 
-delivery_delay (Yes / No)
+### 1. Data Overview
 
-refund_requested (Yes / No)
+* Total number of orders
+* Distinct platforms and product categories
+* Basic sanity checks
 
-order_value_inr
+**Purpose:**
+Validate data before drawing conclusions.
 
-Analysis Approach (SQL-First)
+---
 
-All analysis is performed using PostgreSQL.
+### 2. Delivery Delay Analysis
 
-The project is intentionally structured as incremental operational questions, not random queries.
+* Percentage of delayed vs on-time orders
+* Delay distribution across platforms
 
-Key Analyses Performed
-1. Data Overview
+**Insight:**
+Delivery delay rates vary significantly by platform, indicating uneven operational performance.
 
-Total number of orders
+---
 
-Distinct platforms and categories
+### 3. Product Category Delay Analysis
 
-Sanity checks for missing or inconsistent values
+* Delay percentage by product category
+* Categories ranked from highest to lowest delay risk
 
-Purpose:
-Ensure data validity before drawing conclusions.
+**Insight:**
+Grocery orders show the highest delay rates, suggesting higher fulfillment complexity.
 
-2. Delivery Delay Analysis
+---
 
-Percentage of delayed vs on-time deliveries
+### 4. Refund Behavior Analysis
 
-Delay distribution across platforms
+* Refund rate for delayed vs on-time orders
+* Refund rate by service rating
 
-Key Insight:
+**Insight:**
+Low service ratings strongly correlate with higher refund rates.
+Delivery delay alone does not fully explain refunds.
 
-A non-trivial share of orders are delayed
+---
 
-Delay rates vary significantly by platform
+### 5. Refund Risk Scoring (Core Outcome)
 
-3. Product Category Delay Analysis
+A **rule-based refund risk score** is calculated for each order.
 
-Delay percentage by product category
+#### Signals Used
 
-Categories ranked from highest to lowest delay rate
+| Signal           | Weight |
+| ---------------- | ------ |
+| Service Rating   | 60%    |
+| Delivery Delay   | 30%    |
+| Product Category | 10%    |
 
-Key Insight:
+Weights are explicitly defined and business-driven.
 
-Grocery orders show the highest delay risk
+#### Interpretation
 
-Beverages and certain categories are relatively stable
+* Low service rating → highest refund risk
+* Delivery delay → secondary risk driver
+* Grocery category → higher operational fragility
 
-Operational Interpretation:
-Perishable and fast-moving categories increase fulfillment complexity.
+Each order receives a **refund risk score between 0 and 1**, enabling early identification of high-risk orders.
 
-4. Refund Behavior Analysis
+---
 
-Refund rate comparison:
+## Project Structure
 
-Delayed vs on-time orders
-
-Across service ratings
-
-Key Insight:
-
-Refunds are more frequent when service ratings are low
-
-Delivery delay alone does not fully explain refunds
-
-Service experience acts as a strong amplifier
-
-5. Refund Risk Scoring (Core Outcome)
-
-A rule-based refund risk score is created at the order level.
-
-Signals Used
-Signal	Weight
-Service Rating	60%
-Delivery Delay	30%
-Product Category	10%
-
-Weights are:
-
-Interpretable
-
-Business-driven
-
-Explicitly stated (not learned blindly)
-
-Logic
-
-Low service rating → high refund risk
-
-Delivery delay → increased risk
-
-Grocery category → higher operational fragility
-
-Each order receives a refund risk score between 0 and 1.
-
-Purpose:
-
-Early identification of high-risk orders
-
-Operational triage
-
-Support team prioritization
-
-Policy and process improvement
-
+```
 E-commerce-Order-Fulfillment-Operations-Analysis/
 │
 ├── Data/
 │   └── ecommerce_orders.csv
 │
 ├── SQL/
-│   ├── data_overview.sql
-│   ├── delivery_delay_analysis.sql
-│   ├── category_delay_analysis.sql
-│   ├── refund_analysis.sql
-│   └── refund_risk_score.sql
+│   ├── 01_data_overview.sql
+│   ├── 02_delivery_delay_analysis.sql
+│   ├── 03_category_delay_analysis.sql
+│   ├── 04_refund_analysis.sql
+│   └── 05_refund_risk_score.sql
 │
 ├── README.md
+```
 
-Tools Used
+---
 
-PostgreSQL
 
-SQL (window functions, CASE logic, aggregation)
+## Limitations
 
-GitHub for version control
+* Dataset is historical and simulated
+* External factors (weather, staffing, supply chain) are not available
 
-Future Improvements
+---
 
-Convert risk score into a logistic regression model
+## Future Improvements
 
-Add time-based analysis (peak hours, weekdays)
+* Convert risk score into a predictive model
+* Add time-based analysis (hour, weekday, peak periods)
+* Incorporate order value into risk weighting
+* Platform-specific operational benchmarks
 
-Incorporate order value into risk weighting
+---
 
-Platform-specific operational benchmarks
+## Tools Used
+
+* PostgreSQL
+* SQL (CTEs, window functions, CASE logic)
+* GitHub for version control
+
+---
+
+
+
