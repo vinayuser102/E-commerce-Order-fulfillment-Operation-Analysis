@@ -35,7 +35,7 @@ This project answers:
 
 ## Dataset
 
-**Source:** Public e-commerce order fulfillment dataset
+**Source:** Public e-commerce order fulfillment dataset(kaggle dataset ,Last updated fed, 2025)
 **Size:** ~100,000 orders
 
 Each row represents a completed order.
