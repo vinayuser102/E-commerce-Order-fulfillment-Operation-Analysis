@@ -1,0 +1,80 @@
+{
+  "logistic_regression": {
+    "accuracy": 0.7724,
+    "precision": 0.4361,
+    "recall": 0.7291,
+    "f1": 0.5458,
+    "roc_auc": 0.8392,
+    "confusion_matrix": [
+      [
+        12715,
+        3535
+      ],
+      [
+        1016,
+        2734
+      ]
+    ],
+    "n_test": 20000,
+    "cv_auc_mean": 0.8372,
+    "cv_auc_std": 0.0033
+  },
+  "random_forest": {
+    "accuracy": 0.8406,
+    "precision": 0.5701,
+    "recall": 0.6091,
+    "f1": 0.589,
+    "roc_auc": 0.8347,
+    "confusion_matrix": [
+      [
+        14528,
+        1722
+      ],
+      [
+        1466,
+        2284
+      ]
+    ],
+    "n_test": 20000,
+    "cv_auc_mean": 0.832,
+    "cv_auc_std": 0.0034,
+    "feature_importance": {
+      "service_rating": 0.5623703020690954,
+      "minutes_late": 0.08429262184456161,
+      "order_value": 0.08372832707891899,
+      "is_delayed": 0.05412238567371871,
+      "hour": 0.05311597997153249,
+      "promised_minutes": 0.051097664755011096,
+      "items_count": 0.03757041390168901,
+      "weekday": 0.03155763549015,
+      "delay_and_high_value": 0.005757815084127181,
+      "platform_JioMart": 0.005730226209003704,
+      "platform_Blinkit": 0.00568312416565494,
+      "platform_Swiggy Instamart": 0.005607481631435656,
+      "category_Fruits & Vegetables": 0.005451349422391284,
+      "category_Beverages": 0.0029772933161607415,
+      "category_Dairy": 0.002969561151539212,
+      "category_Snacks": 0.002783900845461169,
+      "category_Personal Care": 0.0026515310720357,
+      "category_Grocery": 0.002532386317513014
+    }
+  },
+  "rule_based_baseline": {
+    "accuracy": 0.8344,
+    "precision": 0.5509,
+    "recall": 0.6325,
+    "f1": 0.5889,
+    "roc_auc": 0.8276,
+    "n_test": 20000,
+    "confusion_matrix": [
+      [
+        14316,
+        1934
+      ],
+      [
+        1378,
+        2372
+      ]
+    ]
+  }
+}

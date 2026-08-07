@@ -1,0 +1,15 @@
+# Runtime dependencies for the E-Commerce Order Fulfillment Analysis project.
+# Pinned to versions verified in the target environment (Python 3.12).
+# Install with:  pip install -r requirements.txt
+
+numpy==1.26.4
+pandas==2.2.3
+matplotlib==3.9.2
+seaborn==0.13.2
+scikit-learn==1.8.0
+joblib==1.5.3
+streamlit==1.57.0
+
+# Notebook tooling (used to build/execute notebooks/)
+nbformat==5.10.4
+jupyter==1.0.0
